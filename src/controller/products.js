@@ -29,6 +29,7 @@ const getProduct = async (req, res, next) => {
   console.log(id);
   try {
     const product = await productService.getProduct(id);
+    // To Do. Change!
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
     }
