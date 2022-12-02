@@ -23,10 +23,10 @@ app.use(productsRoutes);
 
 
 // Connect to the DB
-const connectDB = () => {
+const connectDB = async () => {
     try {
-        mongoose.connect(process.env.DB_URI);
-        console.log("Database connected");
+        const conn = await mongoose.connect(process.env.DB_URI);
+        console.log( `MongoDB connected: ${conn.connection.host}`);
     } catch (error) {
         console.log(error);
         
@@ -39,10 +39,13 @@ const connectDB = () => {
 // 4. Put the server online
 // port 3000 frontend
 // port 8000 backend
-app.listen(process.env.PORT,() =>{
-    console.log("Server is listening on port " +process.env.PORT);
-    connectDB();
+
+connectDB().then(()=> {
+    app.listen(process.env.PORT,() =>{
+        console.log("Server is listening on port " +process.env.PORT);
+    });
 });
+
 
 
 module.exports = app;
